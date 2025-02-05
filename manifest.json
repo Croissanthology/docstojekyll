@@ -2,7 +2,6 @@
   "manifest_version": 3,
   "name": "GDocs to Jekyll",
   "version": "1.0",
-  "description": "convert google docs to jekyll posts with one click",
   "permissions": [
     "activeTab",
     "storage"
@@ -11,11 +10,14 @@
     "https://docs.google.com/*",
     "https://api.github.com/*"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [{
     "matches": ["https://docs.google.com/document/*"],
-    "js": ["parser.js"]
+    "js": ["content.js"]
   }],
   "action": {
-    "default_popup": "src/popup/popup.html"
+    "default_popup": "popup.html"
   }
 }
