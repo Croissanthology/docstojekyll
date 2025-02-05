@@ -3,16 +3,95 @@
 <html>
 <head>
   <style>
-    body { width: 300px; padding: 15px; }
-    input { width: 100%; margin: 5px 0; }
+    body {
+      width: 320px;
+      padding: 20px;
+      font-family: system-ui;
+      background: #fff1f5;
+      color: #4a4a4a;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    input {
+      padding: 8px 12px;
+      border: 2px solid #ffd1dc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #ff8da1;
+      box-shadow: 0 0 0 3px rgba(255,141,161,0.2);
+    }
+    button {
+      background: #ff8da1;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover {
+      background: #ff7c93;
+      transform: translateY(-1px);
+    }
+    .token-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px dashed #ffd1dc;
+    }
+    .footer {
+      font-size: 12px;
+      color: #888;
+      margin-top: 16px;
+      text-align: center;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
-  <form id="jekyllForm">
-    <input type="date" id="postDate" required>
-    <input type="text" id="postSlug" placeholder="url-slug" required>
-    <button type="submit">Publish</button>
-  </form>
+  <div class="container">
+    <form id="jekyllForm">
+      <div class="field">
+        <label for="postDate">Publication Date</label>
+        <input type="date" id="postDate" required>
+      </div>
+      <div class="field">
+        <label for="postTitle">Title</label>
+        <input type="text" id="postTitle" required>
+      </div>
+      <div class="field">
+        <label for="postSlug">URL Slug</label>
+        <input type="text" id="postSlug" required>
+      </div>
+      <button type="submit">✨ Publish Post</button>
+    </form>
+
+    <div class="token-section">
+      <div class="field">
+        <label for="githubToken">GitHub Token</label>
+        <input type="password" id="githubToken" placeholder="ghp_...">
+      </div>
+      <button id="saveToken">Save Token</button>
+    </div>
+    
+    <p class="footer">turning docs into posts, one click at a time 🌸</p>
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>
