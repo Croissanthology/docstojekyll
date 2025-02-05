@@ -14,10 +14,12 @@
     "https://api.github.com/*"
   ],
   
+  {
   "content_scripts": [{
     "matches": ["https://docs.google.com/document/*"],
-    "js": ["src/content/parser.js"]
-  }],
+    "js": ["parser.js"]  // 
+  }]
+
   
   "action": {
     "default_popup": "src/popup/popup.html"
