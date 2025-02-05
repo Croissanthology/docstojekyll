@@ -90,19 +90,25 @@ async function updateIndex(newTitle, newUrl) {
   });
 }
 
-// handle messages from popup
+// background.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'publishToGithub') {
-    const {date, title, content, suggestedSlug} = request.data;
-    const fileName = `${date}-${suggestedSlug}.md`;
+    // wrap in async handler
+    (async () => {
+      try {
+        const {date, title, content, suggestedSlug} = request.data;
+        const fileName = `${date}-${suggestedSlug}.md`;
 
-    Promise.all([
-      commitPost(fileName, content),
-      updateIndex(title, `/${suggestedSlug}`)
-    ])
-    .then(() => sendResponse({success: true}))
-    .catch(err => sendResponse({success: false, error: err.message}));
-
-    return true; // keep message channel open for async
+        await Promise.all([
+          commitPost(fileName, content),
+          updateIndex(title, `/${suggestedSlug}`)
+        ]);
+        sendResponse({success: true});
+      } catch (err) {
+        sendResponse({success: false, error: err.message});
+      }
+    })();
+    return true; // CRITICAL: keeps message channel open
   }
+  return true; // handle other messages too
 });
