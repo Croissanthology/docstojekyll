@@ -1,4 +1,3 @@
-// background.js
 const CONFIG = {
   REPO: 'croissanthology/croissanthology.github.io',
   BRANCH: 'main'
@@ -32,7 +31,8 @@ async function githubApi(path, method = 'GET', data = null) {
 }
 
 async function commitPost(fileName, content) {
-  const endpoint = `_posts/${encodeURIComponent(fileName)}`;
+  c// in commitPost function
+  const endpoint = `_posts/${encodeURIComponent(fileName)}`;  // just _posts directly
   const encoded = btoa(unescape(encodeURIComponent(content)));
   
   try {
@@ -58,8 +58,8 @@ async function commitPost(fileName, content) {
 }
 
 async function updateIndex(newTitle, newUrl) {
-  const indexPath = 'index.html';
-  const currentIndex = await githubApi(indexPath);
+
+const indexPath = 'index.html'; 
   const content = decodeURIComponent(escape(atob(currentIndex.content)));
   
   // extract existing list
