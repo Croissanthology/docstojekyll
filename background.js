@@ -90,25 +90,26 @@ const indexPath = 'index.html';
   });
 }
 
-// background.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('background received message:', request);
   if (request.action === 'publishToGithub') {
-    // wrap in async handler
     (async () => {
       try {
         const {date, title, content, suggestedSlug} = request.data;
         const fileName = `${date}-${suggestedSlug}.md`;
-
+        console.log('attempting to publish:', fileName);
+        
         await Promise.all([
           commitPost(fileName, content),
           updateIndex(title, `/${suggestedSlug}`)
         ]);
         sendResponse({success: true});
       } catch (err) {
+        console.error('publish error:', err);
         sendResponse({success: false, error: err.message});
       }
     })();
-    return true; // CRITICAL: keeps message channel open
+    return true; // keep message channel open
   }
-  return true; // handle other messages too
+  return true;
 });
