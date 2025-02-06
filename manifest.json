@@ -21,3 +21,13 @@
     "default_popup": "popup.html"
   }
 }
+
+{
+  // ... other stuff ...
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs"  // add this
+  ],
+  // ... rest ...
+}
