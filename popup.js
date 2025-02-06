@@ -14,7 +14,6 @@ async function typeInto(id, value, speed = 20) {
   input.style.color = '#4a4a4a';
 }
 
-// Prefill form with doc data
 async function prefillForm() {
   debug('Starting prefill');
   
@@ -27,15 +26,11 @@ async function prefillForm() {
   });
 
   try {
-  const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
-  debug('Current tab:', tab?.id);
-  if (!tab?.id) throw new Error('No active tab found');
-  
-  const docContent = await chrome.tabs.sendMessage(tab.id, {action: 'getDocContent'});
-  // rest of your prefill code...
-} catch (err) {
-  debug('Error in prefill:', err);
-}
+    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+    debug('Current tab:', tab?.id);
+    if (!tab?.id) throw new Error('No active tab found');
+    
+    const docContent = await chrome.tabs.sendMessage(tab.id, {action: 'getDocContent'});
     debug('Received doc content:', docContent);
 
     // Get date from subtitle or default to today
@@ -57,7 +52,6 @@ async function prefillForm() {
     });
   }
 }
-
 // Confetti celebration
 function celebrateSuccess() {
   try {
