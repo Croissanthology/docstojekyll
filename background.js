@@ -32,7 +32,7 @@ async function githubApi(path, method = 'GET', data = null) {
 }
 
 async function commitPost(fileName, content) {
-  const endpoint = `contents/_posts/${encodeURIComponent(fileName)}`;
+  const endpoint = `_posts/${encodeURIComponent(fileName)}`;
   const encoded = btoa(unescape(encodeURIComponent(content)));
   
   try {
@@ -58,7 +58,7 @@ async function commitPost(fileName, content) {
 }
 
 async function updateIndex(newTitle, newUrl) {
-  const indexPath = 'contents/index.html';
+  const indexPath = 'index.html';
   const currentIndex = await githubApi(indexPath);
   const content = decodeURIComponent(escape(atob(currentIndex.content)));
   
