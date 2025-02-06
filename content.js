@@ -100,12 +100,16 @@ permalink: /${docName}
   }
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('content received message:', request);
+try {
   if (request.action === 'getDocContent') {
     const content = getDocContent();
     console.log('sending content back:', content);
     sendResponse(content);
   }
-  return true; // IMPORTANT: keep message channel open
+} catch (err) {
+  console.error("Error in content script:", err);
+  sendResponse({ error: err.message });  // Send error message back
+}
+return true;
+
 });
