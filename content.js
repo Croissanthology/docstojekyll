@@ -90,17 +90,10 @@ permalink: /${docName}
   }
 }
 
-// Add proper message listener
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  try {
-    if (request.action === 'getDocContent') {
-      const content = getDocContent();
-      console.log('sending content back:', content);
-      sendResponse(content);
-    }
-  } catch (err) {
-    console.error("Error in content script:", err);
-    sendResponse({ error: err.message });
+  if (request.action === 'getDocContent') {
+    const content = getDocContent();
+    sendResponse(content);
+    return true;  // crucial - keeps message channel open
   }
-  return true;  // Keep message channel open for async response
 });
