@@ -27,16 +27,15 @@ async function prefillForm() {
   });
 
   try {
-    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
-    debug('Current tab:', tab);
-    
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const docContent = await chrome.tabs.sendMessage(tab.id, {action: 'getDocContent'});
-    
-    if (chrome.runtime.lastError) {
-      throw new Error(chrome.runtime.lastError.message);
-    }
-
+  const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+  debug('Current tab:', tab?.id);
+  if (!tab?.id) throw new Error('No active tab found');
+  
+  const docContent = await chrome.tabs.sendMessage(tab.id, {action: 'getDocContent'});
+  // rest of your prefill code...
+} catch (err) {
+  debug('Error in prefill:', err);
+}
     debug('Received doc content:', docContent);
 
     // Get date from subtitle or default to today
