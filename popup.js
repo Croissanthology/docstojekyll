@@ -24,33 +24,27 @@ async function prefillForm() {
     input.value = 'loading...';
   });
 
-  try {
-    // Get doc data
-    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
-    debug('Got active tab', tab);
-    
-    const docContent = await chrome.tabs.sendMessage(tab.id, {action: 'getDocContent'});
-    debug('Got doc content', docContent);
+try {
+  const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+  await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms (adjust if needed)
+  const docContent = await chrome.tabs.sendMessage(tab.id, {action: 'getDocContent'});
+  if (chrome.runtime.lastError) {
+    throw new Error(chrome.runtime.lastError.message);
+  }
+  // Get date from subtitle or default to today
+  const subtitle = document.querySelector('[data-heading="SUBTITLE"]')?.innerText;
+  const dateMatch = subtitle?.match(/\d{4}-\d{2}-\d{2}/);
+  const date = dateMatch?.[0] || new Date().toISOString().split('T')[0];
 
-    if (docContent) {
-      // Get date from subtitle or default to today
-      const subtitle = document.querySelector('[data-heading="SUBTITLE"]')?.innerText;
-      const dateMatch = subtitle?.match(/\d{4}-\d{2}-\d{2}/);
-      const date = dateMatch?.[0] || new Date().toISOString().split('T')[0];
-
-      // Fill fields with animation
-      await typeInto('postTitle', docContent.title);
-      await typeInto('postSlug', docContent.suggestedSlug);
-      await typeInto('postDate', date);
-    } else {
-      debug('No doc content received');
-    }
-
-    // Load saved token
-    const token = await chrome.storage.sync.get('github_token');
-    if (token.github_token) {
-      document.getElementById('githubToken').value = token.github_token;
-    }
+  // Fill fields with animation
+  await typeInto('postTitle', docContent.title);
+  await typeInto('postSlug', docContent.suggestedSlug);
+  await typeInto('postDate', date);
+} catch (err) {
+  console.error("Error getting document content:", err);
+  // Optional: Display an error message in the popup (e.g., set the value of an error display element)
+  return; // Stop the function if there's an error
+}
   } catch (err) {
     debug('Error in prefill:', err);
     // Reset fields on error
