@@ -41,21 +41,15 @@ try {
   await typeInto('postSlug', docContent.suggestedSlug);
   await typeInto('postDate', date);
 } catch (err) {
+  debug('Error in prefill:', err);
   console.error("Error getting document content:", err);
-  // Optional: Display an error message in the popup (e.g., set the value of an error display element)
-  return; // Stop the function if there's an error
+  // Reset fields on error
+  fields.forEach(id => {
+    const input = document.getElementById(id);
+    input.style.color = '#4a4a4a';
+    input.value = '';
+  });
 }
-  } catch (err) {
-    debug('Error in prefill:', err);
-    // Reset fields on error
-    fields.forEach(id => {
-      const input = document.getElementById(id);
-      input.style.color = '#4a4a4a';
-      input.value = '';
-    });
-  }
-}
-
 // Confetti celebration
 function celebrateSuccess() {
   const canvas = document.createElement('canvas');
