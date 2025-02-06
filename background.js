@@ -57,9 +57,9 @@ async function commitPost(fileName, content) {
 }
 
 async function updateIndex(newTitle, newUrl) {
-  
-const currentIndex = await githubApi(indexPath);
-const indexPath = 'index.html'; 
+
+  const indexPath = 'index.html'; 
+  const currentIndex = await githubApi(indexPath);
   const content = decodeURIComponent(escape(atob(currentIndex.content)));
   
   // extract existing list
