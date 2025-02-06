@@ -100,10 +100,12 @@ permalink: /${docName}
   }
 }
 
-// message listener stays the same
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('content received message:', request);
   if (request.action === 'getDocContent') {
     const content = getDocContent();
+    console.log('sending content back:', content);
     sendResponse(content);
   }
+  return true; // IMPORTANT: keep message channel open
 });
