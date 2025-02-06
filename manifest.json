@@ -4,7 +4,8 @@
   "version": "1.0",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
     "https://docs.google.com/*",
@@ -20,13 +21,4 @@
   "action": {
     "default_popup": "popup.html"
   }
-}
-
-{
-
-  "permissions": [
-    "activeTab",
-    "storage",
-    "tabs"  
-  ],
 }
